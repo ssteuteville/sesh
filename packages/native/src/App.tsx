@@ -1,20 +1,28 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import "./initialize-firebase";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { CurrentUserContextProvider } from "./auth/current-user-context";
+import { SignUp } from "./auth/onboarding/sign-up";
+
+const queryClient = new QueryClient();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app! tests</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <CurrentUserContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ title: "Sign Up" }}
+            />
+          </Stack.Navigator>
+        </QueryClientProvider>
+      </CurrentUserContextProvider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

@@ -8,6 +8,8 @@ const projectRoot = __dirname;
 const workspaceRoot = findRoot(projectRoot);
 
 const config = getDefaultConfig(projectRoot);
+// support cjs for firebase
+config.resolver.sourceExts.push("cjs");
 
 // 1. Watch all files within the monorepo
 config.watchFolders = [workspaceRoot];
@@ -18,5 +20,7 @@ config.resolver.nodeModulesPaths = [
 ];
 // 3. Force Metro to resolve (sub)dependencies only from the `nodeModulesPaths`
 config.resolver.disableHierarchicalLookup = true;
+
+config.resolver.resolverMainFields = ["react-native", "browser", "main"];
 
 module.exports = config;
